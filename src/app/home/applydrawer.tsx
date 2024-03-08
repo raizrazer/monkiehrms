@@ -1,5 +1,9 @@
 "use client";
 
+// ? =================================
+// ? This is for the Manager and Employee to SEE, So he/she can apply leaves.
+// ? =================================
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import {

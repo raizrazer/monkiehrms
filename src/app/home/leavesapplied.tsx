@@ -1,4 +1,9 @@
 "use client";
+
+// ? =================================
+// ? This is for the Manager and Employee to SEE, So he/she can see the status of the leaves.
+// ? =================================
+
 import React from "react";
 import {
   Table,
