@@ -36,7 +36,7 @@ export default function LeavesApproved({
               <TableHead>To</TableHead>
               <TableHead>Type</TableHead>
               <TableHead>Reason</TableHead>
-              <TableHead className="text-center">Approval</TableHead>
+              <TableHead className="text-center">Status</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -51,7 +51,9 @@ export default function LeavesApproved({
                     {item.enddate.toDate().toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={"default"}>{item.leavetype}</Badge>
+                    <Badge variant={"default"}>
+                      {item.leavetype.toUpperCase()}
+                    </Badge>
                   </TableCell>
                   <TableCell>{item.reason}</TableCell>
                   <TableCell className="text-center">

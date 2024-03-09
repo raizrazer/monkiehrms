@@ -22,7 +22,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
   const [nameFilled, setNameFilled] = useState(true);
   const [isHr, setIsHr] = useState(false);
   const [isManager, setIsManager] = useState(false);
-  const [value, loading, error] = useDocument(
+  const [value] = useDocument(
     doc(getFirestore(firebaseApp), "users", `${user?.uid}`)
   );
   const [mainLoading, setMainLoading] = useState(false);

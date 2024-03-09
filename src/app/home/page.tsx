@@ -192,7 +192,9 @@ export default function Page() {
       )}
       {isHr && (
         <Sheet>
-          <SheetTrigger>Open</SheetTrigger>
+          <SheetTrigger>
+            <Button variant={"destructive"}>Grant User Roles</Button>
+          </SheetTrigger>
           <SheetContent>
             <SheetHeader>
               <SheetTitle>Total Members</SheetTitle>

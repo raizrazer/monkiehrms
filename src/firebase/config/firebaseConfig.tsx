@@ -8,12 +8,12 @@ import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDWHBpkMi8kdrcLvDERipMuGCUFLUNozjc",
-  authDomain: "monkie-hrms.firebaseapp.com",
-  projectId: "monkie-hrms",
-  storageBucket: "monkie-hrms.appspot.com",
-  messagingSenderId: "103913131021",
-  appId: "1:103913131021:web:ec90bf56f7cfb23e369944",
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
 };
 
 // Initialize Firebase

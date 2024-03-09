@@ -57,7 +57,9 @@ export default function ApproveLeaves({
                     {item.enddate.toDate().toLocaleDateString()}
                   </TableCell>
                   <TableCell>
-                    <Badge variant={"default"}>{item.leavetype}</Badge>
+                    <Badge variant={"default"}>
+                      {item.leavetype.toUpperCase()}
+                    </Badge>
                   </TableCell>
                   <TableCell>{item.reason}</TableCell>
                   <TableCell className="text-center whitespace-nowrap">

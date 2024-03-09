@@ -10,6 +10,7 @@ import { auth } from "@/firebase/config/firebaseConfig";
 import { redirect } from "next/navigation";
 
 import signin from "@/firebase/signin";
+import Link from "next/link";
 
 export default function SignInForm() {
   const [user, loading, error] = useIdToken(auth);
@@ -30,11 +31,12 @@ export default function SignInForm() {
   };
 
   if (user) {
-    redirect("/home");
+    return redirect("/home");
   }
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
+      style={{ display: `${!user ? "flex" : "none"}` }}
       className="flex max-w-[460px] flex-col items-center justify-center gap-6 rounded-md border-[1px] border-black bg-primary-foreground p-6"
     >
       <h2 className="text-2xl font-semibold">Sign In</h2>
@@ -84,6 +86,15 @@ export default function SignInForm() {
       >
         Sign In
       </Button>
+      <div className="flex flex-col">
+        <p>If you want to create an account, </p>
+        <Link
+          href={"/sign-up"}
+          className="font-semibold text-center underline text-blue-950 "
+        >
+          Click Here To Sign Up
+        </Link>
+      </div>
     </form>
   );
 }

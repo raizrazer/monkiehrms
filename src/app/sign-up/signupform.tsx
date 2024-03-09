@@ -10,6 +10,7 @@ import { auth } from "@/firebase/config/firebaseConfig";
 import { redirect } from "next/navigation";
 
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import Link from "next/link";
 export default function SignUpForm() {
   type Inputs = {
     email: string;
@@ -89,6 +90,15 @@ export default function SignUpForm() {
       >
         Create an Account
       </Button>
+      <div className="flex flex-col">
+        <p>If you already have an account, </p>
+        <Link
+          href={"/sign-in"}
+          className="font-semibold text-center underline text-blue-950 "
+        >
+          Click Here To Sign In
+        </Link>
+      </div>
     </form>
   );
 }
