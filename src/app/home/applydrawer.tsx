@@ -71,7 +71,7 @@ export default function ApplyLeaveDrawer() {
         enddate,
         leavetype,
         reason,
-        status: false,
+        status: 1,
         timestamp: serverTimestamp(),
       });
       setMainDialog(false);

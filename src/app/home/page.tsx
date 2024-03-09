@@ -25,6 +25,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { auth } from "@/firebase/config/firebaseConfig";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { redirect } from "next/navigation";
+import LeavesApproved from "./leavesapproved";
 
 export default function Page() {
   const [user] = useIdToken(auth);
@@ -66,9 +67,14 @@ export default function Page() {
         </div>
       )}
       {(isManager || isHr) && (
-        <div>
-          <ApproveLeaves />
-        </div>
+        <>
+          <div>
+            <ApproveLeaves />
+          </div>
+          <div>
+            <LeavesApproved />
+          </div>
+        </>
       )}
       <div>
         <Dialog open={nameFilled ? false : true}>

@@ -23,15 +23,12 @@ import { UserContext } from "@/components/Contexts/UserContext";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/config/firebaseConfig";
 
-import { doc, updateDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
-import { clearTimeout } from "timers";
-export default function ApproveLeaves() {
+export default function LeavesApproved() {
   const { value } = useContext(UserContext);
   const [appliedLeavesList, setAppliedLeavesList] = useState([{}]);
   const appliedLeavesRef = collection(db, "appliedleaves");
   const [loading, setLoading] = useState(true);
-  const q = query(appliedLeavesRef, where("status", "==", 1));
+  const q = query(appliedLeavesRef, where("status", "!=", 1));
   useEffect(() => {
     const gettingDocs = async () => {
       try {
@@ -52,44 +49,13 @@ export default function ApproveLeaves() {
     gettingDocs();
   }, []);
 
-  const router = useRouter();
-
-  const refresh = () => {
-    const timeout = setTimeout(() => router.refresh(), 200);
-    clearTimeout(timeout);
-  };
-
   console.log(appliedLeavesList);
-  const approveLeave = async (e) => {
-    console.log(e.target.id);
-    const approveLocation = doc(db, "appliedleaves", `${e.target.id}`);
-    try {
-      await updateDoc(approveLocation, {
-        status: 2,
-      });
-      return refresh();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const rejectLeave = async () => {
-    console.log(e.target.id);
-    const approveLocation = doc(db, "appliedleaves", `${e.target.id}`);
-    try {
-      await updateDoc(approveLocation, {
-        status: 0,
-      });
-      return refresh();
-    } catch (e) {
-      console.log(e);
-    }
-  };
   return (
     <div className="pt-3">
-      <h3 className="font-semibold text-xl pb-4">Leave(s) to Approve</h3>
+      <h3 className="font-semibold text-xl pb-4">Approved Leave(s)</h3>
       <div className="bg-blue-100/30 rounded-md py-4 pt-2 px-4">
         <Table>
-          <TableCaption>A list of leaves to decide.</TableCaption>
+          <TableCaption>A list of approved leaves.</TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead className="">Name</TableHead>
@@ -115,22 +81,20 @@ export default function ApproveLeaves() {
                     <Badge variant={"default"}>{item.leavetype}</Badge>
                   </TableCell>
                   <TableCell>{item.reason}</TableCell>
-                  <TableCell className="text-center whitespace-nowrap">
-                    <Button
-                      variant={"secondary"}
-                      id={item.id}
-                      className="bg-green-500 hover:bg-green-600 text-white rounded-none rounded-l"
-                      onClick={(e) => approveLeave(e)}
-                    >
-                      <CheckIcon className="size-6 pointer-events-none" />
-                    </Button>
-                    <Button
-                      variant={"secondary"}
-                      id={item.id}
-                      className="bg-red-500 hover:bg-red-600 text-white rounded-none rounded-r "
-                    >
-                      <Cross2Icon className="size-6 pointer-events-none" />
-                    </Button>
+                  <TableCell className="text-center">
+                    {item.status > 1 ? (
+                      <div className="bg-green-500 text-white py-2 rounded">
+                        Approved
+                      </div>
+                    ) : item.status < 1 ? (
+                      <div className="bg-red-500 text-white py-2 rounded">
+                        Rejected
+                      </div>
+                    ) : (
+                      <div className="bg-blue-500 text-white py-2 rounded">
+                        Processing
+                      </div>
+                    )}
                   </TableCell>
                 </TableRow>
               ))}

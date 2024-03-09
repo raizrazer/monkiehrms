@@ -10,21 +10,12 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import {
-  Timestamp,
-  collection,
-  getDocs,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "@/firebase/config/firebaseConfig";
 import { useIdToken } from "react-firebase-hooks/auth";
 
@@ -86,13 +77,17 @@ export default function LeavesApplied() {
                     </TableCell>
                     <TableCell>{item?.reason}</TableCell>
                     <TableCell className="text-center">
-                      {item.status ? (
+                      {item.status > 1 ? (
                         <div className="bg-green-500 text-white py-2 rounded">
                           Approved
                         </div>
-                      ) : (
+                      ) : item.status < 1 ? (
                         <div className="bg-red-500 text-white py-2 rounded">
                           Rejected
+                        </div>
+                      ) : (
+                        <div className="bg-blue-500 text-white py-2 rounded">
+                          Processing
                         </div>
                       )}
                     </TableCell>
