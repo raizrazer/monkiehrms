@@ -1,3 +1,17 @@
+For Setup:
+
+1. npm init
+2. make sure all the things are there which is on the package.json.
+3. As I have us Shadcn which is component-based, you probably will have to copy all the files from the Shadcn website.
+4. To set up Firebase, you only need the cloud function, firestore, and authentication. I have used react-firebase-hook for quicker implementation.
+5. For cloud function, you must have to download Google Firebase SDK CLI, which is not something I would recommend, but it's cool. 
+6. Used React-Hook-Form for some of the validations.
+7. I didn't care for state management, but still used Context API because it's cool.
+8. This should be running on vercel.
+9. I guess that's pretty much it.
+
+
+
 ![image](https://github.com/raizrazer/monkiehrms/assets/41806230/18736698-31bf-4ff9-b569-5fe38132f116)# monkiehrms
 A Leave Management HRMS by Monkie(Raiz)
 
