@@ -18,8 +18,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { Switch } from "@/components/ui/switch";
-
 export default function CreateEmployeeLogin() {
   return (
     <Dialog>
@@ -28,32 +26,69 @@ export default function CreateEmployeeLogin() {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Application for Leave(s)</DialogTitle>
+          <DialogTitle>Create an account for an Employee</DialogTitle>
           <DialogDescription>
-            Fill the form to apply for a leave.
+            Fill the form to create an employee account.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col gap-4 py-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 py-4"
+        >
           <div className="flex flex-col items-start gap-4">
             <Label htmlFor="email" className="text-right">
               Enter an Email
             </Label>
-            <Input type="email" id="email" placeholder="Email" />
+            <Input
+              type="email"
+              id="email"
+              placeholder="Email"
+              defaultValue=""
+              {...register("email", { required: true })}
+            />
+            <span
+              className={`${
+                errors.email ? "opacity-100" : "opacity-0"
+              } pt-2 text-red-400 text-xs`}
+            >
+              Enter an Email
+            </span>
           </div>
           <div className="flex flex-col items-start gap-4">
             <Label htmlFor="password" className="text-right">
               Enter a Password
             </Label>
-            <Input type="password" id="password" placeholder="Password" />
+            <Input
+              type="password"
+              id="password"
+              placeholder="Password"
+              defaultValue=""
+              {...register("password", { required: true })}
+            />
+            <span
+              className={`${
+                errors.password ? "opacity-100" : "opacity-0"
+              } pt-2 text-red-400 text-xs`}
+            >
+              {errors.password?.type === "required"
+                ? "Enter an Password"
+                : "Password must be 8 digits minimum"}
+            </span>
           </div>
-          <div className="flex items-center space-x-2">
-            <Label htmlFor="airplane-mode">Is the employee a Manager</Label>
-            <Switch id="airplane-mode" />
-          </div>
-        </div>
-        <DialogFooter className="!justify-center">
-          <Button type="submit">Create Employee Account</Button>
-        </DialogFooter>
+          {/* <div className="flex items-center space-x-2">
+            <Label htmlFor="manager">Is the employee a Manager</Label>
+            <Switch
+              id="manager"
+              {...register("isManager")}
+              onCheckedChange={(e) => {
+                setValue("isManager", e);
+              }}
+            />
+          </div> */}
+          <DialogFooter className="!justify-center">
+            <Button type="submit">Create Employee Account</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );

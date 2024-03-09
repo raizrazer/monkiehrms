@@ -68,11 +68,11 @@ export default function ApplyLeaveDrawer() {
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Type of leaves</SelectLabel>
-                  <SelectItem value="apple">Apple</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="blueberry">Blueberry</SelectItem>
-                  <SelectItem value="grapes">Grapes</SelectItem>
-                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                  <SelectItem value="sick">Sick leave</SelectItem>
+                  <SelectItem value="casual">Casual leave</SelectItem>
+                  <SelectItem value="emergency">Emergency leave</SelectItem>
+                  <SelectItem value="study">Study leave</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

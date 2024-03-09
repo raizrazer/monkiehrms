@@ -10,6 +10,7 @@ import { getFirestore, doc } from "firebase/firestore";
 import { useDocument } from "react-firebase-hooks/firestore";
 import { firebaseApp } from "@/firebase/config/firebaseConfig";
 import { redirect } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
   const [user] = useIdToken(auth);
@@ -18,12 +19,14 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
     redirect("/sign-in");
   }
 
+  const [nameFilled, setNameFilled] = useState(true);
   const [isHr, setIsHr] = useState(false);
   const [isManager, setIsManager] = useState(false);
   const [value, loading, error] = useDocument(
     doc(getFirestore(firebaseApp), "users", `${user?.uid}`)
   );
   useEffect(() => {
+    console.log(value?.data());
     if (value?.data()) {
       if (value?.data()?.isManager) {
         setIsManager(true);
@@ -31,15 +34,38 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       if (value?.data()?.isHr) {
         setIsHr(true);
       }
+      if (value?.data()?.fullName) {
+        setNameFilled(true);
+      } else {
+        setNameFilled(false);
+      }
     }
   }, [value]);
 
   return (
-    <UserContext.Provider value={{ isHr, isManager, setIsHr, setIsManager }}>
+    <UserContext.Provider
+      value={{
+        isHr,
+        isManager,
+        setIsHr,
+        setIsManager,
+        nameFilled,
+        setNameFilled,
+      }}
+    >
       <div className="relative  flex min-h-screen flex-col">
         <div className="sticky top-0 flex w-full bg-primary py-4 text-center ">
           <div className="container flex justify-between  text-white">
-            <div className="text-2xl font-bold">Monkie HRMS</div>
+            <div className="text-2xl font-bold flex items-center gap-4">
+              Monkie HRMS
+              {isHr ? (
+                <Badge className="bg-red-500 text-xs">HR ADMIN</Badge>
+              ) : isManager ? (
+                <Badge className="bg-orange-500 text-xs">Manager</Badge>
+              ) : (
+                <Badge className="bg-green-500 text-xs">Employee</Badge>
+              )}
+            </div>
             <div className="flex items-center gap-4">
               <div>
                 Hi, <span className="font-semibold">{user.email}</span>
