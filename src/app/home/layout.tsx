@@ -25,8 +25,8 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
   const [value, loading, error] = useDocument(
     doc(getFirestore(firebaseApp), "users", `${user?.uid}`)
   );
+  const [mainLoading, setMainLoading] = useState(false);
   useEffect(() => {
-    console.log(value?.data());
     if (value?.data()) {
       if (value?.data()?.isManager) {
         setIsManager(true);
@@ -52,6 +52,8 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
         nameFilled,
         setNameFilled,
         value,
+        mainLoading,
+        setMainLoading,
       }}
     >
       <div className="relative  flex min-h-screen flex-col">
@@ -69,7 +71,10 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
             </div>
             <div className="flex items-center gap-4">
               <div>
-                Hi, <span className="font-semibold">{user.email}</span>
+                Hi,{" "}
+                <span className="font-semibold">
+                  {value?.data().fullName ? value?.data().fullName : user.email}
+                </span>
               </div>
 
               <Button onClick={() => signout()} variant={"secondary"}>

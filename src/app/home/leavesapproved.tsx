@@ -4,52 +4,25 @@
 // ? This is for the Manager and HR to SEE, So he/she can approve leaves.
 // ? =================================
 
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import {
   Table,
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 
-import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import { UserContext } from "@/components/Contexts/UserContext";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/firebase/config/firebaseConfig";
-
-export default function LeavesApproved() {
-  const { value } = useContext(UserContext);
-  const [appliedLeavesList, setAppliedLeavesList] = useState([{}]);
-  const appliedLeavesRef = collection(db, "appliedleaves");
-  const [loading, setLoading] = useState(true);
-  const q = query(appliedLeavesRef, where("status", "!=", 1));
-  useEffect(() => {
-    const gettingDocs = async () => {
-      try {
-        const querySnapshot = await getDocs(q);
-        setLoading(true);
-        const userDataArray: any[] = [];
-        querySnapshot.forEach((doc) => {
-          userDataArray.push({ id: doc.id, ...doc.data() });
-        });
-        userDataArray.sort((a, b) => b.timestamp - a.timestamp);
-        setAppliedLeavesList(userDataArray);
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    gettingDocs();
-  }, []);
-
-  console.log(appliedLeavesList);
+export default function LeavesApproved({
+  approvedList,
+  loading,
+}: {
+  approvedList: any[];
+  loading: boolean;
+}) {
   return (
     <div className="pt-3">
       <h3 className="font-semibold text-xl pb-4">Approved Leave(s)</h3>
@@ -68,7 +41,7 @@ export default function LeavesApproved() {
           </TableHeader>
           <TableBody>
             {!loading &&
-              appliedLeavesList.map((item, index) => (
+              approvedList.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.fullName}</TableCell>
                   <TableCell>

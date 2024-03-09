@@ -30,7 +30,6 @@ export default function SignUpForm() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       // await signin(data.email, data.password);
-      console.log(data);
       createUserWithEmailAndPassword(data.email, data.password);
     } catch (e) {}
   };

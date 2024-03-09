@@ -10,7 +10,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -19,71 +18,17 @@ import { Badge } from "@/components/ui/badge";
 
 import { CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
-import { UserContext } from "@/components/Contexts/UserContext";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/firebase/config/firebaseConfig";
-
-import { doc, updateDoc } from "firebase/firestore";
-import { useRouter } from "next/navigation";
-import { clearTimeout } from "timers";
-export default function ApproveLeaves() {
-  const { value } = useContext(UserContext);
-  const [appliedLeavesList, setAppliedLeavesList] = useState([{}]);
-  const appliedLeavesRef = collection(db, "appliedleaves");
-  const [loading, setLoading] = useState(true);
-  const q = query(appliedLeavesRef, where("status", "==", 1));
-  useEffect(() => {
-    const gettingDocs = async () => {
-      try {
-        const querySnapshot = await getDocs(q);
-        setLoading(true);
-        const userDataArray: any[] = [];
-        querySnapshot.forEach((doc) => {
-          userDataArray.push({ id: doc.id, ...doc.data() });
-        });
-        userDataArray.sort((a, b) => b.timestamp - a.timestamp);
-        setAppliedLeavesList(userDataArray);
-        setLoading(false);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
-    gettingDocs();
-  }, []);
-
-  const router = useRouter();
-
-  const refresh = () => {
-    const timeout = setTimeout(() => router.refresh(), 200);
-    clearTimeout(timeout);
-  };
-
-  console.log(appliedLeavesList);
-  const approveLeave = async (e) => {
-    console.log(e.target.id);
-    const approveLocation = doc(db, "appliedleaves", `${e.target.id}`);
-    try {
-      await updateDoc(approveLocation, {
-        status: 2,
-      });
-      return refresh();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const rejectLeave = async () => {
-    console.log(e.target.id);
-    const approveLocation = doc(db, "appliedleaves", `${e.target.id}`);
-    try {
-      await updateDoc(approveLocation, {
-        status: 0,
-      });
-      return refresh();
-    } catch (e) {
-      console.log(e);
-    }
-  };
+export default function ApproveLeaves({
+  approvallist,
+  loading,
+  approveLeave,
+  rejectLeave,
+}: {
+  approvallist: any[];
+  loading: boolean;
+  approveLeave: Function;
+  rejectLeave: Function;
+}) {
   return (
     <div className="pt-3">
       <h3 className="font-semibold text-xl pb-4">Leave(s) to Approve</h3>
@@ -102,7 +47,7 @@ export default function ApproveLeaves() {
           </TableHeader>
           <TableBody>
             {!loading &&
-              appliedLeavesList.map((item, index) => (
+              approvallist.map((item, index) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{item.fullName}</TableCell>
                   <TableCell>
@@ -128,6 +73,7 @@ export default function ApproveLeaves() {
                       variant={"secondary"}
                       id={item.id}
                       className="bg-red-500 hover:bg-red-600 text-white rounded-none rounded-r "
+                      onClick={(e) => rejectLeave(e)}
                     >
                       <Cross2Icon className="size-6 pointer-events-none" />
                     </Button>

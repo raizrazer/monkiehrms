@@ -55,6 +55,9 @@ import { UserContext } from "@/components/Contexts/UserContext";
 
 export default function ApplyLeaveDrawer() {
   const [user] = useIdToken(auth);
+
+  const { setMainLoading } = useContext(UserContext);
+
   const [mainDialog, setMainDialog] = useState<boolean>();
   const [leavetype, setLeaveType] = useState<string>();
   const [startdate, setStartdate] = useState<Date>();
@@ -74,6 +77,7 @@ export default function ApplyLeaveDrawer() {
         status: 1,
         timestamp: serverTimestamp(),
       });
+      setMainLoading(true);
       setMainDialog(false);
       setLeaveType("");
       setStartdate(undefined);

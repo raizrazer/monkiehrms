@@ -4,7 +4,7 @@
 // ? This is for the Manager and Employee to SEE, So he/she can see the status of the leaves.
 // ? =================================
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -18,8 +18,10 @@ import { Badge } from "@/components/ui/badge";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "@/firebase/config/firebaseConfig";
 import { useIdToken } from "react-firebase-hooks/auth";
+import { UserContext } from "@/components/Contexts/UserContext";
 
 export default function LeavesApplied() {
+  const { mainLoading, setMainLoading } = useContext(UserContext);
   const [user] = useIdToken(auth);
   const [appliedLeavesList, setAppliedLeavesList] = useState([{}]);
   const appliedLeavesRef = collection(db, "appliedleaves");
@@ -37,15 +39,15 @@ export default function LeavesApplied() {
         userDataArray.sort((a, b) => b.timestamp - a.timestamp);
         setAppliedLeavesList(userDataArray);
         setLoading(false);
+        setMainLoading(false);
       } catch (e) {
-        console.log(e);
+        console.error(e);
       }
     };
 
     gettingDocs();
-  }, []);
+  }, [mainLoading]);
 
-  console.log(appliedLeavesList);
   return (
     <div className="pt-3">
       <h3 className="font-semibold text-xl pb-4">Leave(s) Applied</h3>
