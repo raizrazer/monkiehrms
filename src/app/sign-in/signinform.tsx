@@ -1,23 +1,18 @@
 "use client";
 import React from "react";
 import { Button } from "@/components/ui/button";
-
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-import { useAuthState } from "react-firebase-hooks/auth";
+import { useIdToken } from "react-firebase-hooks/auth";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { auth } from "@/firebase/config/firebaseConfig";
-
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import signin from "@/firebase/signin";
 
 export default function SignInForm() {
-  const router = useRouter();
-  const [user, loading, error] = useAuthState(auth);
-
+  const [user, loading, error] = useIdToken(auth);
   type Inputs = {
     email: string;
     password: string;
@@ -26,23 +21,17 @@ export default function SignInForm() {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
     try {
       await signin(data.email, data.password);
-    } catch (e) {
-      // console.log(e);
-    }
+    } catch (e) {}
   };
 
   if (user) {
-    router.push("/home");
+    redirect("/home");
   }
-
-  console.log(user);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
