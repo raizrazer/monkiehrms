@@ -51,6 +51,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
         setIsManager,
         nameFilled,
         setNameFilled,
+        value,
       }}
     >
       <div className="relative  flex min-h-screen flex-col">
