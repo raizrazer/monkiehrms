@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { ContextType, useContext } from "react";
 
 import ApproveLeaves from "./approveleaves";
 import CreateEmployeeLogin from "./createemployeelogin";

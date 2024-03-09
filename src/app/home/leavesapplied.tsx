@@ -4,7 +4,7 @@
 // ? This is for the Manager and Employee to SEE, So he/she can see the status of the leaves.
 // ? =================================
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -16,8 +16,45 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import {
+  Timestamp,
+  collection,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { auth, db } from "@/firebase/config/firebaseConfig";
+import { useIdToken } from "react-firebase-hooks/auth";
 
 export default function LeavesApplied() {
+  const [user] = useIdToken(auth);
+  const [appliedLeavesList, setAppliedLeavesList] = useState([{}]);
+  const appliedLeavesRef = collection(db, "appliedleaves");
+  const [loading, setLoading] = useState(true);
+  const q = query(appliedLeavesRef, where("uid", "==", user?.uid));
+  useEffect(() => {
+    const gettingDocs = async () => {
+      try {
+        const querySnapshot = await getDocs(q);
+        setLoading(true);
+        const userDataArray: any[] = [];
+        querySnapshot.forEach((doc) => {
+          userDataArray.push({ id: doc.id, ...doc.data() });
+        });
+        userDataArray.sort((a, b) => b.timestamp - a.timestamp);
+        setAppliedLeavesList(userDataArray);
+        setLoading(false);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    gettingDocs();
+  }, []);
+
+  console.log(appliedLeavesList);
   return (
     <div className="pt-3">
       <h3 className="font-semibold text-xl pb-4">Leave(s) Applied</h3>
@@ -33,21 +70,36 @@ export default function LeavesApplied() {
               <TableHead className="text-center">Status</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell className="font-medium">01/01/2024</TableCell>
-              <TableCell>02/02/2024</TableCell>
-              <TableCell>
-                <Badge variant={"default"}>Sick leave</Badge>
-              </TableCell>
-              <TableCell>I am feeling sick</TableCell>
-              <TableCell className="text-center">
-                <div className="bg-green-500 text-white py-2 rounded">
-                  Approved
-                </div>
-              </TableCell>
-            </TableRow>
-          </TableBody>
+          {!loading &&
+            appliedLeavesList.map((item, index) => {
+              return (
+                <TableBody key={index}>
+                  <TableRow>
+                    <TableCell className="font-medium">
+                      {item?.startdate.toDate().toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      {item?.enddate.toDate().toLocaleDateString()}
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={"default"}>{item?.leavetype}</Badge>
+                    </TableCell>
+                    <TableCell>{item?.reason}</TableCell>
+                    <TableCell className="text-center">
+                      {item.status ? (
+                        <div className="bg-green-500 text-white py-2 rounded">
+                          Approved
+                        </div>
+                      ) : (
+                        <div className="bg-red-500 text-white py-2 rounded">
+                          Rejected
+                        </div>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              );
+            })}
         </Table>
       </div>
     </div>
