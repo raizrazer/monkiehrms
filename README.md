@@ -1,5 +1,4 @@
-For Setup:
-
+## For Setup:
 1. npm init
 2. make sure all the things are there which is on the package.json.
 3. As I have us Shadcn which is component-based, you probably will have to copy all the files from the Shadcn website.
@@ -10,7 +9,7 @@ For Setup:
 8. This should be running on vercel.
 9. I guess that's pretty much it.
 
-
+---
 
 ![image](https://github.com/raizrazer/monkiehrms/assets/41806230/18736698-31bf-4ff9-b569-5fe38132f116)# monkiehrms
 A Leave Management HRMS by Monkie(Raiz)
@@ -19,12 +18,16 @@ The time taken to develop the app, was 18 hours, with some short breaks in betwe
 As I had work most of the near weekend days, I couldn't get to start earlier.
 That's why I had to do a marathon-ish writing session.
 
+---
+
 Let's talk about the tech stack,
 NextJS, Tailwind, Shadcn,
 Google Firebase(Authentication,
 Cloud Function, Firestore),
 Radix UI functions,
 Context API(for little state management).
+
+---
 
  For the front end, I have used NextJS, as it's a flavor of React with more awesome features, even tho due to the hurry I haven't thought much about practical security issues with route handling client-side 😅 but I hope you'll understand.
 
