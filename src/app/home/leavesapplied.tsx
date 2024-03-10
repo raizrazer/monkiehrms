@@ -15,15 +15,31 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { auth, db } from "@/firebase/config/firebaseConfig";
 import { useIdToken } from "react-firebase-hooks/auth";
 import { UserContext } from "@/components/Contexts/UserContext";
 
+type AppliedValue = {
+  startdate: Timestamp;
+  enddate: Timestamp;
+  timestamp: Timestamp;
+  leavetype: string;
+  reason: string;
+  status: number;
+};
 export default function LeavesApplied() {
   const { mainLoading, setMainLoading } = useContext(UserContext);
   const [user] = useIdToken(auth);
-  const [appliedLeavesList, setAppliedLeavesList] = useState([{}]);
+  const [appliedLeavesList, setAppliedLeavesList] = useState<AppliedValue[]>(
+    []
+  );
   const appliedLeavesRef = collection(db, "appliedleaves");
   const [loading, setLoading] = useState(true);
   const q = query(appliedLeavesRef, where("uid", "==", user?.uid));
@@ -39,13 +55,14 @@ export default function LeavesApplied() {
         userDataArray.sort((a, b) => b.timestamp - a.timestamp);
         setAppliedLeavesList(userDataArray);
         setLoading(false);
-        setMainLoading(false);
+        setMainLoading && setMainLoading(false);
       } catch (e) {
         console.error(e);
       }
     };
 
     gettingDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainLoading]);
 
   return (

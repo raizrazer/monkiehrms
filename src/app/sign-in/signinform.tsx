@@ -9,7 +9,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { auth } from "@/firebase/config/firebaseConfig";
 import { redirect } from "next/navigation";
 
-import signin from "@/firebase/signin";
+import SignInFunction from "@/firebase/signin";
 import Link from "next/link";
 
 export default function SignInForm() {
@@ -26,7 +26,7 @@ export default function SignInForm() {
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      await signin(data.email, data.password);
+      await SignInFunction(data.email, data.password);
     } catch (e) {}
   };
 

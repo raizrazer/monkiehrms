@@ -77,7 +77,7 @@ export default function ApplyLeaveDrawer() {
         status: 1,
         timestamp: serverTimestamp(),
       });
-      setMainLoading(true);
+      setMainLoading && setMainLoading(true);
       setMainDialog(false);
       setLeaveType("");
       setStartdate(undefined);

@@ -73,7 +73,9 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
               <div>
                 Hi,{" "}
                 <span className="font-semibold">
-                  {value?.data().fullName ? value?.data().fullName : user.email}
+                  {value?.data()?.fullName
+                    ? value?.data()?.fullName
+                    : user.email}
                 </span>
               </div>
 

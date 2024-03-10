@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { getDocFromCache } from "firebase/firestore";
+import { DocumentData } from "firebase/firestore";
 import { useIdToken } from "react-firebase-hooks/auth";
 import {
   collection,
@@ -38,16 +38,21 @@ import {
 } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 
+type MemberValue = {
+  id: string;
+  uid: string;
+  fullName: string;
+  isHr: boolean;
+  isManager: boolean;
+};
+
 export default function Page() {
   const [user] = useIdToken(auth);
-
   const { isHr, nameFilled, setNameFilled, isManager } =
     useContext(UserContext);
-
   type Inputs = {
     fullName: string;
   };
-
   const {
     register,
     handleSubmit,
@@ -60,13 +65,13 @@ export default function Page() {
       await updateDoc(userDataRef, {
         fullName: data.fullName,
       });
-      setNameFilled(true);
+      setNameFilled && setNameFilled(true);
     } catch (e) {
       console.error(e);
     }
   };
-  // ! APPROVES LEAVES SECTION
 
+  // ! APPROVES LEAVES SECTION
   const [loading, setLoading] = useState(true);
 
   const [approvalList, setApprovalList] = useState([{}]);
@@ -90,11 +95,10 @@ export default function Page() {
     };
 
     gettingDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
-  const approveLeave = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const approveLeave = async (e: { target: { id: any } }) => {
     const approveLocation = doc(db, "appliedleaves", `${e.target.id}`);
     try {
       await updateDoc(approveLocation, {
@@ -105,9 +109,7 @@ export default function Page() {
       console.error(e);
     }
   };
-  const rejectLeave = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const rejectLeave = async (e: { target: { id: any } }) => {
     const approveLocation = doc(db, "appliedleaves", `${e.target.id}`);
     try {
       await updateDoc(approveLocation, {
@@ -140,10 +142,11 @@ export default function Page() {
     };
 
     gettingDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   // ! MEMBER LIST SECTION
-  const [memberList, setMemberList] = useState([{}]);
+  const [memberList, setMemberList] = useState<MemberValue[]>([]);
   const membersListRef = collection(db, "users");
   const mbl = query(membersListRef);
   useEffect(() => {
@@ -151,11 +154,11 @@ export default function Page() {
       try {
         const querySnapshot = await getDocs(mbl);
         // setLoading(true);
-        const userDataArray: any[] = [];
-        querySnapshot.forEach((doc) => {
+        const userDataArray: MemberValue[] = [];
+        querySnapshot.forEach((doc: DocumentData) => {
           userDataArray.push({ id: doc.id, ...doc.data() });
         });
-        userDataArray.sort((a, b) => a.fullName - b.fullName);
+        userDataArray.sort((a, b) => a.fullName.localeCompare(b.fullName));
         setMemberList(userDataArray);
         setLoading(false);
       } catch (e) {
@@ -164,6 +167,7 @@ export default function Page() {
     };
 
     gettingDocs();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
 
   console.log(memberList);
@@ -218,7 +222,7 @@ export default function Page() {
                         </p>
                         <div className="flex flex-row items-center self-end gap-2">
                           <Switch
-                            id={item.uid}
+                            id={item.id}
                             // id="make-manager"
                             checked={item.isManager}
                             disabled={item.isHr}

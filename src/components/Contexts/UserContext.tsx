@@ -8,7 +8,7 @@ type userContext = {
   setIsHr?: Dispatch<SetStateAction<boolean>>;
   setIsManager?: Dispatch<SetStateAction<boolean>>;
   setNameFilled?: Dispatch<SetStateAction<boolean>>;
-  value: DocumentSnapshot<DocumentData, DocumentData>;
+  value: DocumentSnapshot<DocumentData, DocumentData> | undefined;
   setMainLoading?: Dispatch<SetStateAction<boolean>>;
 };
-export const UserContext = createContext<userContext>({});
+export const UserContext = createContext<userContext>({} as userContext);
