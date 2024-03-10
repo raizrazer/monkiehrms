@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,24 +13,29 @@ import { redirect } from "next/navigation";
 import SignInFunction from "@/firebase/signin";
 import Link from "next/link";
 
+// Type for the Input of the Sign In Form
+type Inputs = {
+  email: string;
+  password: string;
+};
 export default function SignInForm() {
   const [user, loading, error] = useIdToken(auth);
-  type Inputs = {
-    email: string;
-    password: string;
-  };
 
+  // React Hooks Functions for the handling of the inputs.
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+
+  // Submit Handler Function when the User submits the Sign In form.
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       await SignInFunction(data.email, data.password);
     } catch (e) {}
   };
 
+  // If the user is present, it will redirect to the /home page.
   if (user) {
     return redirect("/home");
   }

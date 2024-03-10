@@ -1,9 +1,9 @@
 "use client";
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useIdToken } from "react-firebase-hooks/auth";
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { auth } from "@/firebase/config/firebaseConfig";
@@ -11,33 +11,37 @@ import { redirect } from "next/navigation";
 
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import Link from "next/link";
-export default function SignUpForm() {
-  type Inputs = {
-    email: string;
-    password: string;
-  };
 
+// Type for the Input of the Sign In Form
+type Inputs = {
+  email: string;
+  password: string;
+};
+
+export default function SignUpForm() {
+  // React Hooks Functions for the handling of the inputs.
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm<Inputs>();
 
-  // ! Creating Account
+  // ! Creating Account SECTION
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
+  // Submit Handler Function when the User submits the Sign Up form.
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      // await signin(data.email, data.password);
       createUserWithEmailAndPassword(data.email, data.password);
     } catch (e) {}
   };
 
+  // If the user is present, it will redirect to the /home page.
   if (user) {
     redirect("/home");
   }
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
