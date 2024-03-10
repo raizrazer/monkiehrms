@@ -186,9 +186,11 @@ export default function Page() {
   };
   return (
     <div className="min-h-screen flex-1 py-5">
-      <div className="flex w-full justify-center">
-        {!isHr && <ApplyLeaveDrawer />}
-      </div>
+      {!isHr && (
+        <div className="flex w-full justify-center">
+          <ApplyLeaveDrawer />
+        </div>
+      )}
       {!isHr && (
         <div>
           <LeavesApplied />
@@ -196,9 +198,13 @@ export default function Page() {
       )}
       {isHr && (
         <Sheet>
-          <SheetTrigger>
-            <Button variant={"destructive"}>Grant User Roles</Button>
-          </SheetTrigger>
+          <div className="w-full flex">
+            <SheetTrigger className="ml-auto">
+              <div className="bg-red-500 hover:bg-red-400 rounded-md p-3 font-semibold text-white">
+                Grant User Roles
+              </div>
+            </SheetTrigger>
+          </div>
           <SheetContent>
             <SheetHeader>
               <SheetTitle>Total Members</SheetTitle>

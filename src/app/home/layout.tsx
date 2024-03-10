@@ -57,7 +57,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       }}
     >
       <div className="relative  flex min-h-screen flex-col">
-        <div className="sticky top-0 flex w-full bg-primary py-4 text-center ">
+        <div className="sticky z-[2000] top-0 flex w-full bg-primary py-4 text-center ">
           <div className="container flex justify-between  text-white">
             <div className="text-2xl font-bold flex items-center gap-4">
               Monkie HRMS
