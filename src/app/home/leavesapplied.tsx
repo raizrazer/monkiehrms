@@ -67,7 +67,9 @@ export default function LeavesApplied() {
 
   return (
     <div className="pt-3">
-      <h3 className="font-semibold text-xl pb-4">Leave(s) Applied</h3>
+      <h3 className="font-semibold text-base md:text-xl pb-4">
+        Leave(s) Applied
+      </h3>
       <div className="bg-blue-100/30 rounded-md py-4 pt-2 px-4">
         <Table>
           <TableCaption>A list of your recent applied leave(s).</TableCaption>

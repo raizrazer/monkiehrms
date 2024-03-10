@@ -200,7 +200,7 @@ export default function Page() {
         <Sheet>
           <div className="w-full flex">
             <SheetTrigger className="ml-auto">
-              <div className="bg-red-500 hover:bg-red-400 rounded-md p-3 font-semibold text-white">
+              <div className="bg-red-500 hover:bg-red-400 rounded-md p-2 md:p-3 text-sm md:text-base font-semibold text-white">
                 Grant User Roles
               </div>
             </SheetTrigger>

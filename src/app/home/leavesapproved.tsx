@@ -25,7 +25,9 @@ export default function LeavesApproved({
 }) {
   return (
     <div className="pt-3">
-      <h3 className="font-semibold text-xl pb-4">Approved Leave(s)</h3>
+      <h3 className="font-semibold text-base md:text-xl pb-4">
+        Approved Leave(s)
+      </h3>
       <div className="bg-blue-100/30 rounded-md py-4 pt-2 px-4">
         <Table>
           <TableCaption>A list of approved leaves.</TableCaption>

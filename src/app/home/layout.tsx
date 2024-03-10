@@ -57,21 +57,27 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
       }}
     >
       <div className="relative  flex min-h-screen flex-col">
-        <div className="sticky z-[2000] top-0 flex w-full bg-primary py-4 text-center ">
+        <div className="sticky z-[40] top-0 flex w-full bg-primary py-4 text-center ">
           <div className="container flex justify-between  text-white">
-            <div className="text-2xl font-bold flex items-center gap-4">
+            <div className="text-normal md:text-xl lg:text-2xl font-bold flex items-center gap-4">
               Monkie HRMS
               {isHr ? (
-                <Badge className="bg-red-500 text-xs">HR ADMIN</Badge>
+                <Badge className="bg-red-500  hidden sm:block text-xs">
+                  HR ADMIN
+                </Badge>
               ) : isManager ? (
-                <Badge className="bg-orange-500 text-xs">Manager</Badge>
+                <Badge className="bg-orange-500  hidden sm:block text-xs">
+                  Manager
+                </Badge>
               ) : (
-                <Badge className="bg-green-500 text-xs">Employee</Badge>
+                <Badge className="bg-green-500  hidden sm:block text-xs">
+                  Employee
+                </Badge>
               )}
             </div>
             <div className="flex items-center gap-4">
-              <div>
-                Hi,{" "}
+              <div className="hidden md:block">
+                Hi,
                 <span className="font-semibold">
                   {value?.data()?.fullName
                     ? value?.data()?.fullName
@@ -79,7 +85,11 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                 </span>
               </div>
 
-              <Button onClick={() => signout()} variant={"secondary"}>
+              <Button
+                onClick={() => signout()}
+                variant={"secondary"}
+                className="px-2 md:px-3"
+              >
                 Logout
               </Button>
             </div>
