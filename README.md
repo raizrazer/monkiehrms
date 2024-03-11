@@ -3,16 +3,16 @@
 ## For Setup:
 1. npm init
 2. make sure all the things are there which is on the package.json.
-3. As I have us Shadcn which is component-based, you probably will have to copy all the files from the Shadcn website.
-4. To set up Firebase, you only need the cloud function, firestore, and authentication. I have used react-firebase-hook for quicker implementation.
-5. For cloud function, you must have to download Google Firebase SDK CLI, which is not something I would recommend, but it's cool. 
+3. As I have used Shadcn which is component-based, you probably will have to copy all the files from the Shadcn website.
+4. To set up Firebase, visit your Google console and make an app there, you only need the cloud function, firestore, and authentication. _(I have used react-firebase-hook for quicker implementation)_.
+5. To create a cloud function _(when a user register using Authentication, there should be a copy of that in database as well)_, you must download Google Firebase SDK CLI, which is not something I would recommend, but it's cool. 
 6. Used React-Hook-Form for some of the validations.
-7. I didn't care for state management, but still used Context API because it's cool.
+7. I didn't care for state management, but I still used Context API because it's cool.
 8. This should be running on vercel.
-9. I guess that's pretty much it.
+9. That's pretty much it.
 
 ---
-
+## About the App
 ![image](https://github.com/raizrazer/monkiehrms/assets/41806230/18736698-31bf-4ff9-b569-5fe38132f116)# monkiehrms
 A Leave Management HRMS by Monkie(Raiz)
 
@@ -33,9 +33,9 @@ Context API(for little state management).
 
  For the front end, I have used NextJS, as it's a flavor of React with more awesome features, even tho due to the hurry I haven't thought much about practical security issues with route handling client-side 😅 but I hope you'll understand.
 
-**First I had to do a little bit of planning because I don't really know what I doing once I start without planning. And my chances of not finishing it are very high then, So planning is crucial for me.**
+**First I had to do a little bit of planning because I don't know what I doing once I start without planning. And my chances of not finishing it are very high then, So planning is crucial for me.**
 
-It's nothing Picasso-like, it's just the general idea of where things will be and how it will look.
+It's nothing Picasso-like, just the general idea of where things will be and how it will look.
 ![image](https://github.com/raizrazer/monkiehrms/assets/41806230/6afec489-76e8-4646-9ea6-0480ad3d5ffd)
 
 
@@ -88,8 +88,8 @@ So, yeah that's the assignment which I was given.
 I hope you liked it, I know it's very bad inside the code, but hey 18 hours of no sleep and 3 coffee, I think I am proud of myself.
 
 But on a serious note, things I would do differently if I had more time, like a tonne of time.
-I would have made most of the action with Auth and roles, and server actions.
-I would have also made the login logout more easier with some Oauth providers.
-Would have used MongoDB for more complex major operations.
+- I would have made most of the action with Auth and roles: server actions.
+- I would have also made the login logout easier with some Oauth providers.
+- Would have used MongoDB for more complex major operations.
 But hey, who cares, I enjoyed it and it was fun. Learned about Cloud Functions too, and that's a plus.
 
